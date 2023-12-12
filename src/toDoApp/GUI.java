@@ -3,7 +3,9 @@ package toDoApp;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class GUI extends JFrame {
     JFrame addTaskFrame = new JFrame();
@@ -18,17 +20,26 @@ public class GUI extends JFrame {
     private JButton doneTaskButton;
     private JButton unDoneTaskButton;
     private JTextArea taskDescription = new JTextArea(20, 40);
-    private JList<Task> listOfTasks;
+    private JList<String> listOfTasks;
     private JTextArea showTitles = new JTextArea(20, 20);
     private JTextField titleField = new JTextField();
     private JTextArea descriptionArea = new JTextArea();
     private JTextField date = new JTextField();
     private JButton save = new JButton();
     ActionHandler actionListener = new ActionHandler(this);
+    TaskManager taskManager = new TaskManager();
+    List taskTitles = new List();
 
 
 
-    public GUI(){
+    public GUI() throws IOException {
+        for (Task task:taskManager.getTaskList()){
+            taskTitles.add(task.getTitle());
+        }
+       listOfTasks = new JList<>();
+       listOfTasks.setBackground(Color.BLUE);
+
+
         setTitle("ToDo Applikation");
         setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,7 +53,7 @@ public class GUI extends JFrame {
         doneTaskButton = new JButton("Visa klarade uppgifter");
         unDoneTaskButton = new JButton("Visa ej klara uppgifter");
         //sidePanel.add(showTitles);
-        //sidePanel.add(listOfTasks);
+        sidePanel.add(listOfTasks);
         mainPanel.add(taskDescription);
 
         menuPanel.add(addButton);
@@ -83,7 +94,8 @@ public class GUI extends JFrame {
         Task task = null;
         addTaskMainPanel = new JPanel(new GridLayout(4,1));
         addTaskFrame.add(addTaskMainPanel);
-        titleField = new JTextField("Titel:");
+        titleField = new JTextField();
+        titleField.setToolTipText("Titel:");
         descriptionArea = new JTextArea(20, 40);
         date = new JTextField();
         save = new JButton("Spara");
@@ -99,24 +111,6 @@ public class GUI extends JFrame {
         addTaskFrame.setSize(600,500);
         addTaskFrame.setVisible(true);
         addTaskFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        /*
-        JOptionPane jp = new JOptionPane();
-
-        int input = JOptionPane.showConfirmDialog(this, dialogPanel, "Lägg till uppgift", JOptionPane.OK_CANCEL_OPTION);
-
-        if (input == JOptionPane.OK_OPTION) {
-            String title = titleField.getText();
-            String description = descriptionArea.getText();
-            String dateString = date.getText();
-            LocalDate localDate = LocalDate.parse(dateString);
-            if (!title.isEmpty()) {
-                task = new Task(title, description, localDate);
-            } else {
-                JOptionPane.showMessageDialog(this, "Fyll i samtliga rutor", "Fel", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        */
 
         return task;
 

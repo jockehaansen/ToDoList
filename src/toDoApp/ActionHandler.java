@@ -11,8 +11,9 @@ public class ActionHandler implements ActionListener {
     
     private GUI gui;
     
-    public ActionHandler(GUI gui){
+    public ActionHandler(GUI gui) throws IOException {
         this.gui = gui;
+        taskManager.dbToList();
     }
     
     @Override
