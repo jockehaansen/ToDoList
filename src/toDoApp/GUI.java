@@ -3,6 +3,8 @@ package toDoApp;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class GUI extends JFrame {
     private JButton addButton;
     private JButton editButton;
     private JButton removeButton;
+    private JButton markAsDoneButton;
     private JButton doneTaskButton;
     private JButton unDoneTaskButton;
     private JTextArea taskDescription = new JTextArea(20, 40);
@@ -34,7 +37,7 @@ public class GUI extends JFrame {
     public GUI() throws IOException {
         taskManager.dbToList();
         setTitle("ToDo Applikation");
-        setSize(700, 500);
+        setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
         mainPanel = new JPanel();
@@ -43,22 +46,40 @@ public class GUI extends JFrame {
         addButton = new JButton("Lägg till");
         editButton = new JButton("Redigera");
         removeButton = new JButton("Ta bort");
+        markAsDoneButton = new JButton("Markera som klar");
+        markAsDoneButton.addActionListener(actionListener);
+
         doneTaskButton = new JButton("Visa klarade uppgifter");
         unDoneTaskButton = new JButton("Visa ej klara uppgifter");
 
-        for (Task task:taskManager.getTaskList()
-             ) {
+        for (Task task:taskManager.getTaskList()) {
             JLabel label = new JLabel(task.getTitle());
-            label.addMouseListener(actionListener);
-            label.setPreferredSize(new Dimension(200, label.getPreferredSize().height));
+            label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    JLabel clickedLabel = (JLabel) e.getSource();
+                    clickedLabel.setBackground(Color.GRAY);
+                    Component[] labels = gridPane.getComponents();
+                    for (Component comp : labels) {
+                        if (comp instanceof JLabel && comp != clickedLabel) {
+                            comp.setBackground(null);
+                        }
+                    }
+                }
+            });
+            label.setPreferredSize(new Dimension(300, label.getPreferredSize().height));
+            label.setOpaque(true);
             gridPane.add(label);
         }
+
+
 
         mainPanel.add(taskDescription);
 
         menuPanel.add(addButton);
         menuPanel.add(editButton);
         menuPanel.add(removeButton);
+        menuPanel.add(markAsDoneButton);
         menuPanel.add(doneTaskButton);
         menuPanel.add(unDoneTaskButton);
 
@@ -92,7 +113,7 @@ public class GUI extends JFrame {
         descriptionArea = new JTextArea(20, 40);
         date = new JTextField();
         save = new JButton("Spara");
-        setSize(600, 500);
+        setSize(800, 500);
         addTaskMainPanel.setSize(300,300);
         addTaskMainPanel.add(titleField);
         addTaskMainPanel.add(descriptionArea);
@@ -101,7 +122,7 @@ public class GUI extends JFrame {
 
         save.addActionListener(actionListener);
 
-        addTaskFrame.setSize(600,500);
+        addTaskFrame.setSize(800,500);
         addTaskFrame.setVisible(true);
         addTaskFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -135,5 +156,9 @@ public class GUI extends JFrame {
 
     public JFrame getAddTaskFrame() {
         return addTaskFrame;
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 }

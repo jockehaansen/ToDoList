@@ -1,6 +1,7 @@
 package toDoApp;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -10,6 +11,8 @@ import java.time.LocalDate;
 
 public class ActionHandler implements ActionListener, MouseListener {
     TaskManager taskManager = new TaskManager();
+
+    private JLabel lastClickedLabel;
 
     private GUI gui;
     
@@ -31,7 +34,12 @@ public class ActionHandler implements ActionListener, MouseListener {
             } else if (buttonClicked.getText() == "Ta bort") {
                 System.out.println("Tryckte på Ta bort");
             } else if (buttonClicked.getText() == "Redigera") {
-                System.out.println("Tryckte på  Redigera");
+                System.out.println("Tryckte på Redigera");
+            } else if (buttonClicked.getText().equals("Markera som klar") && lastClickedLabel != null) {
+                lastClickedLabel.setBackground(Color.GREEN);
+                lastClickedLabel.setOpaque(true);
+                gui.getMainPanel().revalidate(); // Uppdatera panelen för att visa ändringen
+                gui.getMainPanel().repaint();
             } else if (buttonClicked.getText() == "Visa klarade uppgifter") {
                 System.out.println("Tryckte på Visa klarade uppgifter");
             } else if (buttonClicked.getText() == "Visa ej klara uppgifter") {
@@ -57,7 +65,20 @@ public class ActionHandler implements ActionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("KLICK");
+        if (e.getSource() instanceof JLabel) {
+            JLabel clickedLabel = (JLabel) e.getSource();
+
+            if (lastClickedLabel != null && lastClickedLabel != clickedLabel) {
+                lastClickedLabel.setBackground(null);
+                lastClickedLabel.setOpaque(false);
+            }
+
+            clickedLabel.setBackground(Color.GRAY);
+            clickedLabel.setOpaque(true);
+            lastClickedLabel = clickedLabel;
+            gui.getMainPanel().revalidate();
+            gui.getMainPanel().repaint();
+        }
     }
 
     @Override
