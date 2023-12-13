@@ -51,6 +51,7 @@ public class GUI extends JFrame {
              ) {
             JLabel label = new JLabel(task.getTitle());
             label.addMouseListener(actionListener);
+            label.setPreferredSize(new Dimension(200, label.getPreferredSize().height));
             gridPane.add(label);
         }
 
