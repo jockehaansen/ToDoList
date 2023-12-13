@@ -20,26 +20,20 @@ public class GUI extends JFrame {
     private JButton doneTaskButton;
     private JButton unDoneTaskButton;
     private JTextArea taskDescription = new JTextArea(20, 40);
-    private JList<String> listOfTasks;
-    private JTextArea showTitles = new JTextArea(20, 20);
     private JTextField titleField = new JTextField();
     private JTextArea descriptionArea = new JTextArea();
     private JTextField date = new JTextField();
     private JButton save = new JButton();
+    private JPanel gridPane = new JPanel(new GridLayout(15,1,15,15));
+    private JScrollPane sideScrollPanel = new JScrollPane(gridPane);
+    private JScrollBar sideScrollbar = new JScrollBar();
     ActionHandler actionListener = new ActionHandler(this);
     TaskManager taskManager = new TaskManager();
-    List taskTitles = new List();
 
 
 
     public GUI() throws IOException {
-        for (Task task:taskManager.getTaskList()){
-            taskTitles.add(task.getTitle());
-        }
-       listOfTasks = new JList<>();
-       listOfTasks.setBackground(Color.BLUE);
-
-
+        taskManager.dbToList();
         setTitle("ToDo Applikation");
         setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,8 +46,14 @@ public class GUI extends JFrame {
         removeButton = new JButton("Ta bort");
         doneTaskButton = new JButton("Visa klarade uppgifter");
         unDoneTaskButton = new JButton("Visa ej klara uppgifter");
-        //sidePanel.add(showTitles);
-        sidePanel.add(listOfTasks);
+
+        for (Task task:taskManager.getTaskList()
+             ) {
+            JLabel label = new JLabel(task.getTitle());
+            label.addMouseListener(actionListener);
+            gridPane.add(label);
+        }
+
         mainPanel.add(taskDescription);
 
         menuPanel.add(addButton);
@@ -77,17 +77,10 @@ public class GUI extends JFrame {
         sidePanel.setPreferredSize(new Dimension(200, getHeight()));
         menuPanel.setPreferredSize(new Dimension(getWidth(), 50));
         add(menuPanel, BorderLayout.NORTH);
-        add(sidePanel, BorderLayout.WEST);
+        add(sideScrollPanel, BorderLayout.WEST);
         add(mainPanel, BorderLayout.EAST);
 
         setVisible(true);
-    }
-
-    private void addTasksToJList(){
-        //lägga till befintliga tasks i en Jlist som ska visas upp på startskärmen
-    }
-
-    public void startWindow(){
     }
 
     public Task addTaskWindow(){
