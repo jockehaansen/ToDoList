@@ -3,17 +3,19 @@ package toDoApp;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.time.LocalDate;
 
-public class ActionHandler implements ActionListener {
+public class ActionHandler implements ActionListener, MouseListener {
     TaskManager taskManager = new TaskManager();
     
     private GUI gui;
     
     public ActionHandler(GUI gui) throws IOException {
         this.gui = gui;
-        taskManager.dbToList();
+        //taskManager.dbToList();
     }
     
     @Override
@@ -25,8 +27,6 @@ public class ActionHandler implements ActionListener {
                 gui.addTaskWindow();
                 System.out.println("test: " + taskManager.getTaskList());
                 System.out.println("Efter lägg till" + taskManager.getTaskList().size());
-                //Task t = gui.addTaskWindow();
-                //taskManager.addTask(t);
                 System.out.println("Tryckte på lägg till");
             } else if (buttonClicked.getText() == "Ta bort") {
                 System.out.println("Tryckte på Ta bort");
@@ -52,5 +52,30 @@ public class ActionHandler implements ActionListener {
                 }
             }
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("KLICK");
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
