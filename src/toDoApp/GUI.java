@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class GUI extends JFrame {
-    JFrame addTaskFrame = new JFrame();
+    private JFrame addTaskFrame = new JFrame();
 
     private JPanel mainPanel;
     private JPanel sidePanel;
@@ -26,7 +26,6 @@ public class GUI extends JFrame {
     private JButton save = new JButton();
     private JPanel gridPane = new JPanel(new GridLayout(15,1,15,15));
     private JScrollPane sideScrollPanel = new JScrollPane(gridPane);
-    private JScrollBar sideScrollbar = new JScrollBar();
     ActionHandler actionListener = new ActionHandler(this);
     TaskManager taskManager = new TaskManager();
 
@@ -128,5 +127,13 @@ public class GUI extends JFrame {
 
     public JButton getSave() {
         return save;
+    }
+
+    public void showDescription(Task task) {
+        taskDescription.setText(task.getContent());
+    }
+
+    public JFrame getAddTaskFrame() {
+        return addTaskFrame;
     }
 }

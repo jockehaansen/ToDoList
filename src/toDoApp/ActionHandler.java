@@ -10,14 +10,14 @@ import java.time.LocalDate;
 
 public class ActionHandler implements ActionListener, MouseListener {
     TaskManager taskManager = new TaskManager();
-    
+
     private GUI gui;
     
     public ActionHandler(GUI gui) throws IOException {
         this.gui = gui;
         //taskManager.dbToList();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton){
@@ -50,6 +50,7 @@ public class ActionHandler implements ActionListener, MouseListener {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+                gui.getAddTaskFrame().dispose();
             }
         }
     }
