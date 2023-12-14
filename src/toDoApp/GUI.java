@@ -42,8 +42,8 @@ public class GUI extends JFrame {
         mainPanel = new JPanel();
         sidePanel = new JPanel();
         menuPanel = new JPanel(new GridLayout(2,3));
-        addButton = new JButton("Lägg till");
-        editButton = new JButton("Redigera markerad");
+        addButton = new JButton("Lägg till uppgift");
+        editButton = new JButton("Redigera uppgift");
         removeButton = new JButton("Ta bort markerad");
         markAsDoneButton = new JButton("Markera som klar");
         markAsDoneButton.addActionListener(actionListener);
