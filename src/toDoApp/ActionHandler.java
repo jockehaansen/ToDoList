@@ -31,10 +31,10 @@ public class ActionHandler implements ActionListener, MouseListener {
         if (e.getSource() instanceof JButton){
             JButton buttonClicked = (JButton) e.getSource();
 
-            if (buttonClicked.getText() == "Lägg till"){
+            if (buttonClicked.getText() == "Lägg till uppgift"){
                 gui.addTaskWindow();
                 System.out.println("Tryckte på lägg till");
-            } else if (buttonClicked.getText() == "Ta bort") {
+            } else if (buttonClicked.getText() == "Ta bort markerad") {
                 for (Task task: taskManager.getTaskList()) {
                     if (markedTask.matches(task.getTitle())){
                         taskMarkedForDeletion = task;
@@ -50,8 +50,6 @@ public class ActionHandler implements ActionListener, MouseListener {
                     throw new RuntimeException(ex);
                 }
 
-
-                System.out.println("Tryckte på Ta bort");
             } else if (buttonClicked.getText() == "Redigera") {
                 System.out.println("Tryckte på Redigera");
             } else if (buttonClicked.getText().equals("Markera som klar") && lastClickedLabel != null) {
@@ -73,7 +71,7 @@ public class ActionHandler implements ActionListener, MouseListener {
                         LocalDate.parse(gui.getDate().getText()));
                 System.out.println("Efter create task"+taskManager.getTaskList().size());
                 gui.createLabels();
-                gui.addTaskFrame.dispose();
+                gui.getAddTaskFrame().dispose();
 
 
                 try {
