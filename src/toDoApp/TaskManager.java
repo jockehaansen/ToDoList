@@ -59,6 +59,16 @@ public class TaskManager implements TaskOperations{
 
     }
 
+    public Task findTask(String input){
+        for (Task task:taskList
+             ) {
+            if (input.matches(task.getTitle())){
+                return task;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public void removeTask(Task task) {

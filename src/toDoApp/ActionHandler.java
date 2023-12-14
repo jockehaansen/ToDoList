@@ -103,6 +103,8 @@ public class ActionHandler implements ActionListener, MouseListener {
             lastClickedLabel = clickedLabel;
             gui.getMainPanel().revalidate();
             gui.getMainPanel().repaint();
+
+            gui.getTaskDescription().setText(taskManager.findTask(clickedLabel.getText()).getContent());
         }
 
     }

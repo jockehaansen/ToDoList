@@ -188,4 +188,8 @@ public class GUI extends JFrame {
     public JPanel getMainPanel() {
         return mainPanel;
     }
+
+    public JTextArea getTaskDescription() {
+        return taskDescription;
+    }
 }
