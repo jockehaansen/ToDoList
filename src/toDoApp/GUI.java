@@ -27,13 +27,15 @@ public class GUI extends JFrame {
     private JPanel gridPane = new JPanel(new GridLayout(15,1,15,15));
     private JScrollPane sideScrollPanel = new JScrollPane(gridPane);
     private JScrollBar sideScrollbar = new JScrollBar();
-    ActionHandler actionListener = new ActionHandler(this);
     TaskManager taskManager = new TaskManager();
+    ActionHandler actionListener = new ActionHandler(this,taskManager);
+
 
 
 
     public GUI() throws IOException {
         taskManager.dbToList();
+        System.out.println("Task-list init size: " + taskManager.getTaskList().size());
         setTitle("ToDo Applikation");
         setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,12 +49,7 @@ public class GUI extends JFrame {
         doneTaskButton = new JButton("Visa klarade uppgifter");
         unDoneTaskButton = new JButton("Visa ej klara uppgifter");
 
-        for (Task task:taskManager.getTaskList()
-             ) {
-            JLabel label = new JLabel(task.getTitle());
-            label.addMouseListener(actionListener);
-            gridPane.add(label);
-        }
+        createLabels();
 
         mainPanel.add(taskDescription);
 
@@ -108,6 +105,19 @@ public class GUI extends JFrame {
         return task;
 
 
+    }
+
+    public void createLabels(){
+        gridPane.removeAll();
+        for (Task task:taskManager.getTaskList()
+        ) {
+            JLabel label = new JLabel(task.getTitle());
+            label.addMouseListener(actionListener);
+            gridPane.add(label);
+        }
+
+        gridPane.repaint();
+        gridPane.revalidate();
     }
     public Task removeTask(){
         return null;

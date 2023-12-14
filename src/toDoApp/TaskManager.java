@@ -48,10 +48,8 @@ public class TaskManager implements TaskOperations{
     public void updateDatabase() throws IOException {
         //skriver om databasen när en task tas bort eller läggs till i listan
         bufferedWriter = new BufferedWriter(new FileWriter(dbFile));
-        for (Task task:taskList) {
+        for (Task task:this.taskList) {
             try{
-                System.out.println(task.getTitle());
-
                 bufferedWriter.append(task.getTitle());
                 bufferedWriter.append(", ");
                 bufferedWriter.append(task.getContent());
@@ -69,9 +67,7 @@ public class TaskManager implements TaskOperations{
 
     public void createTask(String titel, String description, LocalDate date){
         Task task = new Task(titel,description,date);
-        System.out.println("I create task, innan add"+taskList.size());
-        taskList.add(task);
-        System.out.println("I create task, efter add"+taskList.size());
+        this.taskList.add(task);
     }
 
 

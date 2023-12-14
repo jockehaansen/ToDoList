@@ -9,12 +9,15 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class ActionHandler implements ActionListener, MouseListener {
-    TaskManager taskManager = new TaskManager();
+    TaskManager taskManager;
+    String markedTask = "";
+    Task taskMarkedForDeletion = null;
     
     private GUI gui;
     
-    public ActionHandler(GUI gui) throws IOException {
+    public ActionHandler(GUI gui, TaskManager taskManager) throws IOException {
         this.gui = gui;
+        this.taskManager = taskManager;
         //taskManager.dbToList();
     }
     
@@ -25,10 +28,24 @@ public class ActionHandler implements ActionListener, MouseListener {
 
             if (buttonClicked.getText() == "Lägg till"){
                 gui.addTaskWindow();
-                System.out.println("test: " + taskManager.getTaskList());
-                System.out.println("Efter lägg till" + taskManager.getTaskList().size());
                 System.out.println("Tryckte på lägg till");
             } else if (buttonClicked.getText() == "Ta bort") {
+                for (Task task: taskManager.getTaskList()) {
+                    if (markedTask.matches(task.getTitle())){
+                        taskMarkedForDeletion = task;
+                    }
+                }
+                taskManager.removeTask(taskMarkedForDeletion);
+                System.out.println("Removed task: " + taskMarkedForDeletion);
+                gui.createLabels();
+
+                try {
+                    taskManager.updateDatabase();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
                 System.out.println("Tryckte på Ta bort");
             } else if (buttonClicked.getText() == "Redigera") {
                 System.out.println("Tryckte på  Redigera");
@@ -44,6 +61,8 @@ public class ActionHandler implements ActionListener, MouseListener {
                         gui.getDescriptionArea().getText(),
                         LocalDate.parse(gui.getDate().getText()));
                 System.out.println("Efter create task"+taskManager.getTaskList().size());
+                gui.createLabels();
+                gui.addTaskFrame.dispose();
 
                 try {
                     taskManager.updateDatabase();
@@ -56,7 +75,10 @@ public class ActionHandler implements ActionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("KLICK");
+        if (e.getSource() instanceof JLabel){
+            markedTask = ((JLabel) e.getSource()).getText();
+        }
+        System.out.println("Clicked on: " + markedTask);
     }
 
     @Override
