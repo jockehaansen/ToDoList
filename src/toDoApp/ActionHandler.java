@@ -14,16 +14,16 @@ public class ActionHandler implements ActionListener, MouseListener {
     TaskManager taskManager;
     String markedTask = "";
     Task taskMarkedForDeletion = null;
-    
 
-   
+
+
     private JLabel lastClickedLabel;
 
     private GUI gui;
-    
+
     public ActionHandler(GUI gui, TaskManager taskManager) throws IOException {
         this.gui = gui;
-        this.taskManager = taskManager;        
+        this.taskManager = taskManager;
     }
 
     @Override
@@ -89,15 +89,16 @@ public class ActionHandler implements ActionListener, MouseListener {
 
         if (e.getSource() instanceof JLabel) {
             JLabel clickedLabel = (JLabel) e.getSource();
-            markedTask = ((JLabel) e.getSource()).getText();
 
-            if (lastClickedLabel != null && lastClickedLabel != clickedLabel) {
+            if (lastClickedLabel != null && lastClickedLabel != clickedLabel && lastClickedLabel.getBackground() != Color.green) {
                 lastClickedLabel.setBackground(null);
                 lastClickedLabel.setOpaque(false);
             }
+            if(clickedLabel.getBackground() != Color.green){
+                clickedLabel.setBackground(Color.GRAY);
+                clickedLabel.setOpaque(true);
+            }
 
-            clickedLabel.setBackground(Color.GRAY);
-            clickedLabel.setOpaque(true);
             lastClickedLabel = clickedLabel;
             gui.getMainPanel().revalidate();
             gui.getMainPanel().repaint();

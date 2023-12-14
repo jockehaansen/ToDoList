@@ -35,8 +35,6 @@ public class GUI extends JFrame {
 
 
     public GUI() throws IOException {
-
-        //test
         taskManager.dbToList();
         System.out.println("Task-list init size: " + taskManager.getTaskList().size());
         setTitle("ToDo Applikation");
@@ -92,7 +90,6 @@ public class GUI extends JFrame {
     }
 
     public Task addTaskWindow(){
-        Task task = null;
         addTaskFrame.add(addTaskMainPanel);
         titleField.setToolTipText("Titel:");
         setSize(800, 500);
@@ -108,7 +105,7 @@ public class GUI extends JFrame {
         addTaskFrame.setVisible(true);
         addTaskFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        return task;
+        return null;
     }
 
     public void updateGridPane() {
