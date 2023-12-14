@@ -11,14 +11,13 @@ import java.time.LocalDate;
 
 public class ActionHandler implements ActionListener, MouseListener {
     TaskManager taskManager = new TaskManager();
-
     private JLabel lastClickedLabel;
-
     private GUI gui;
     
     public ActionHandler(GUI gui) throws IOException {
         this.gui = gui;
-        //taskManager.dbToList();
+        taskManager = new TaskManager();
+        taskManager.dbToList();
     }
 
     @Override
@@ -48,13 +47,17 @@ public class ActionHandler implements ActionListener, MouseListener {
                 System.out.println(gui.getTitleField().getText());
                 System.out.println(gui.getDescriptionArea().getText());
                 System.out.println(gui.getDate().getText());
-                taskManager.createTask(gui.getTitleField().getText(),
-                        gui.getDescriptionArea().getText(),
-                        LocalDate.parse(gui.getDate().getText()));
+                try {
+                    taskManager.createTask(gui.getTitleField().getText(),
+                            gui.getDescriptionArea().getText(),
+                            LocalDate.parse(gui.getDate().getText()));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 System.out.println("Efter create task"+taskManager.getTaskList().size());
-
                 try {
                     taskManager.updateDatabase();
+                    gui.updateGridPane();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

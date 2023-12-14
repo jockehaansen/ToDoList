@@ -127,9 +127,35 @@ public class GUI extends JFrame {
         addTaskFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         return task;
-
-
     }
+
+    public void updateGridPane() {
+        gridPane.removeAll();
+
+        for (Task task : taskManager.getTaskList()) {
+            JLabel label = new JLabel(task.getTitle());
+            label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    JLabel clickedLabel = (JLabel) e.getSource();
+                    clickedLabel.setBackground(Color.GRAY);
+                    Component[] labels = gridPane.getComponents();
+                    for (Component comp : labels) {
+                        if (comp instanceof JLabel && comp != clickedLabel) {
+                            comp.setBackground(null);
+                        }
+                    }
+                }
+            });
+            label.setPreferredSize(new Dimension(300, label.getPreferredSize().height));
+            label.setOpaque(true);
+            gridPane.add(label);
+        }
+
+        gridPane.revalidate(); // Uppdatera gridPane för att visa ändringarna
+        gridPane.repaint();
+    }
+
     public Task removeTask(){
         return null;
     }
