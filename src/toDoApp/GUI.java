@@ -14,7 +14,7 @@ public class GUI extends JFrame {
     private JPanel mainPanel;
     private JPanel sidePanel;
     private JPanel menuPanel;
-    private JPanel addTaskMainPanel;
+    private JPanel addTaskMainPanel = new JPanel(new GridLayout(4,1));
     private JButton addButton;
     private JButton editButton;
     private JButton removeButton;
@@ -23,9 +23,9 @@ public class GUI extends JFrame {
     private JButton unDoneTaskButton;
     private JTextArea taskDescription = new JTextArea(20, 40);
     private JTextField titleField = new JTextField();
-    private JTextArea descriptionArea = new JTextArea();
+    private JTextArea descriptionArea = new JTextArea(20, 40);
     private JTextField date = new JTextField();
-    private JButton save = new JButton();
+    private JButton save = new JButton("Spara");
     private JPanel gridPane = new JPanel(new GridLayout(15,1,15,15));
     private JScrollPane sideScrollPanel = new JScrollPane(gridPane);
     TaskManager taskManager = new TaskManager();
@@ -90,13 +90,8 @@ public class GUI extends JFrame {
     }
 
     public Task addTaskWindow(){
-        addTaskMainPanel = new JPanel(new GridLayout(4,1));
         addTaskFrame.add(addTaskMainPanel);
-        titleField = new JTextField();
         titleField.setToolTipText("Titel:");
-        descriptionArea = new JTextArea(20, 40);
-        date = new JTextField();
-        save = new JButton("Spara");
         setSize(800, 500);
         addTaskMainPanel.setSize(300,300);
         addTaskMainPanel.add(titleField);
@@ -154,6 +149,12 @@ public class GUI extends JFrame {
 
         gridPane.repaint();
         gridPane.revalidate();
+    }
+
+    public void resetTextFields(){
+        date.setText(null);
+        titleField.setText(null);
+        descriptionArea.setText(null);
     }
 
     public Task removeTask(){
