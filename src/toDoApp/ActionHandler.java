@@ -70,10 +70,8 @@ public class ActionHandler implements ActionListener, MouseListener {
                             gui.getDescriptionArea().getText(),
                             LocalDate.parse(gui.getDate().getText()));
                     taskManager.updateDatabase();
+                    gui.resetTextFields();
                     gui.updateGridPane();
-                    gui.getTitleField().setText("");
-                    gui.getDescriptionArea().setText("");
-                    gui.getDate().setText("");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
