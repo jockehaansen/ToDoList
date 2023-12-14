@@ -66,12 +66,7 @@ public class ActionHandler implements ActionListener, MouseListener {
                 System.out.println(gui.getDescriptionArea().getText());
                 System.out.println(gui.getDate().getText());
 
-                taskManager.createTask(gui.getTitleField().getText(),
-                        gui.getDescriptionArea().getText(),
-                        LocalDate.parse(gui.getDate().getText()));
-                System.out.println("Efter create task"+taskManager.getTaskList().size());
-                gui.createLabels();
-                gui.getAddTaskFrame().dispose();
+
 
 
                 try {
@@ -87,6 +82,7 @@ public class ActionHandler implements ActionListener, MouseListener {
                     throw new RuntimeException(ex);
                 }
                 System.out.println("Efter create task"+taskManager.getTaskList().size());
+                gui.createLabels();
                 gui.getAddTaskFrame().dispose();
             }
         }
