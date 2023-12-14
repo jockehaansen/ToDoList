@@ -52,10 +52,11 @@ public class TaskManager implements TaskOperations{
         }
     }
 
-    public void createTask(String titel, String description, LocalDate date) throws IOException {
-        Task task = new Task(titel, description, date);
-        taskList.add(task);
-        updateDatabase();
+
+    public void createTask(String titel, String description, LocalDate date){
+        Task task = new Task(titel,description,date);
+        this.taskList.add(task);
+
     }
 
 

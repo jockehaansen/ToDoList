@@ -28,8 +28,9 @@ public class GUI extends JFrame {
     private JButton save = new JButton();
     private JPanel gridPane = new JPanel(new GridLayout(15,1,15,15));
     private JScrollPane sideScrollPanel = new JScrollPane(gridPane);
-    ActionHandler actionListener = new ActionHandler(this);
     TaskManager taskManager = new TaskManager();
+    ActionHandler actionListener = new ActionHandler(this,taskManager);
+
 
 
 
@@ -37,6 +38,7 @@ public class GUI extends JFrame {
 
         //test
         taskManager.dbToList();
+        System.out.println("Task-list init size: " + taskManager.getTaskList().size());
         setTitle("ToDo Applikation");
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,25 +55,9 @@ public class GUI extends JFrame {
         doneTaskButton = new JButton("Visa klarade uppgifter");
         unDoneTaskButton = new JButton("Visa ej klara uppgifter");
 
-        for (Task task:taskManager.getTaskList()) {
-            JLabel label = new JLabel(task.getTitle());
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    JLabel clickedLabel = (JLabel) e.getSource();
-                    clickedLabel.setBackground(Color.GRAY);
-                    Component[] labels = gridPane.getComponents();
-                    for (Component comp : labels) {
-                        if (comp instanceof JLabel && comp != clickedLabel) {
-                            comp.setBackground(null);
-                        }
-                    }
-                }
-            });
-            label.setPreferredSize(new Dimension(300, label.getPreferredSize().height));
-            label.setOpaque(true);
-            gridPane.add(label);
-        }
+
+        createLabels();
+
 
 
 
@@ -155,6 +141,22 @@ public class GUI extends JFrame {
 
         revalidate();
         repaint();
+    }
+
+
+    public void createLabels(){
+        gridPane.removeAll();
+        for (Task task:taskManager.getTaskList()
+        ) {
+            JLabel label = new JLabel(task.getTitle());
+            label.addMouseListener(actionListener);
+            label.setPreferredSize(new Dimension(300, label.getPreferredSize().height));
+            label.setOpaque(true);
+            gridPane.add(label);
+        }
+
+        gridPane.repaint();
+        gridPane.revalidate();
     }
 
     public Task removeTask(){
