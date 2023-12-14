@@ -37,7 +37,7 @@ public class ActionHandler implements ActionListener, MouseListener {
             } else if (buttonClicked.getText().equals("Markera som klar") && lastClickedLabel != null) {
                 lastClickedLabel.setBackground(Color.GREEN);
                 lastClickedLabel.setOpaque(true);
-                gui.getMainPanel().revalidate(); // Uppdatera panelen för att visa ändringen
+                gui.getMainPanel().revalidate();
                 gui.getMainPanel().repaint();
             } else if (buttonClicked.getText() == "Visa klarade uppgifter") {
                 System.out.println("Tryckte på Visa klarade uppgifter");
@@ -51,16 +51,15 @@ public class ActionHandler implements ActionListener, MouseListener {
                     taskManager.createTask(gui.getTitleField().getText(),
                             gui.getDescriptionArea().getText(),
                             LocalDate.parse(gui.getDate().getText()));
+                    taskManager.updateDatabase();
+                    gui.updateGridPane();
+                    gui.getTitleField().setText("");
+                    gui.getDescriptionArea().setText("");
+                    gui.getDate().setText("");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
                 System.out.println("Efter create task"+taskManager.getTaskList().size());
-                try {
-                    taskManager.updateDatabase();
-                    gui.updateGridPane();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
                 gui.getAddTaskFrame().dispose();
             }
         }

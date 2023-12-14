@@ -152,8 +152,8 @@ public class GUI extends JFrame {
             gridPane.add(label);
         }
 
-        gridPane.revalidate(); // Uppdatera gridPane för att visa ändringarna
-        gridPane.repaint();
+        revalidate();
+        repaint();
     }
 
     public Task removeTask(){
