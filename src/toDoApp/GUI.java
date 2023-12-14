@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class GUI extends JFrame {
     private JFrame addTaskFrame = new JFrame();
-
     private JPanel mainPanel;
     private JPanel sidePanel;
     private JPanel menuPanel;
@@ -42,10 +41,10 @@ public class GUI extends JFrame {
         setLayout(new BorderLayout(10, 10));
         mainPanel = new JPanel();
         sidePanel = new JPanel();
-        menuPanel = new JPanel();
+        menuPanel = new JPanel(new GridLayout(2,3));
         addButton = new JButton("Lägg till");
-        editButton = new JButton("Redigera");
-        removeButton = new JButton("Ta bort");
+        editButton = new JButton("Redigera markerad");
+        removeButton = new JButton("Ta bort markerad");
         markAsDoneButton = new JButton("Markera som klar");
         markAsDoneButton.addActionListener(actionListener);
 
