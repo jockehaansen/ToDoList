@@ -35,6 +35,7 @@ public class ActionHandler implements ActionListener, MouseListener {
                 gui.addTaskWindow();
                 System.out.println("Tryckte på lägg till");
             } else if (buttonClicked.getText() == "Ta bort markerad") {
+                markedTask = lastClickedLabel.getText();
                 for (Task task: taskManager.getTaskList()) {
                     if (markedTask.matches(task.getTitle())){
                         taskMarkedForDeletion = task;
@@ -42,13 +43,13 @@ public class ActionHandler implements ActionListener, MouseListener {
                 }
                 taskManager.removeTask(taskMarkedForDeletion);
                 System.out.println("Removed task: " + taskMarkedForDeletion);
-                gui.createLabels();
 
                 try {
                     taskManager.updateDatabase();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+                gui.createLabels();
 
             } else if (buttonClicked.getText() == "Redigera") {
                 System.out.println("Tryckte på Redigera");
