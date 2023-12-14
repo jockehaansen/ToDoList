@@ -51,8 +51,16 @@ public class ActionHandler implements ActionListener, MouseListener {
                 }
                 gui.createLabels();
 
-            } else if (buttonClicked.getText() == "Redigera") {
+            } else if ((buttonClicked.getText() == "Redigera uppgift") && lastClickedLabel != null) {
+                markedTask = lastClickedLabel.getText();
+
+                for (Task task: taskManager.getTaskList()) {
+                    if (markedTask.matches(task.getTitle())){
+                        gui.addTaskWindow(task);
+                    }
+                }
                 System.out.println("Tryckte på Redigera");
+
             } else if (buttonClicked.getText().equals("Markera som klar") && lastClickedLabel != null) {
                 lastClickedLabel.setBackground(Color.GREEN);
                 lastClickedLabel.setOpaque(true);
@@ -81,6 +89,26 @@ public class ActionHandler implements ActionListener, MouseListener {
                 System.out.println("Efter create task"+taskManager.getTaskList().size());
                 gui.createLabels();
                 gui.getAddTaskFrame().dispose();
+            } else if (buttonClicked.getText() == "Uppdatera") {
+                System.out.println(lastClickedLabel.getText());
+                markedTask = lastClickedLabel.getText();
+
+                for (Task task: taskManager.getTaskList()) {
+                    if (markedTask.matches(task.getTitle())){
+                        task.setTitle(gui.getTitleField().getText());
+                        task.setDate(LocalDate.parse(gui.getDate().getText()));
+                        task.setContent(gui.getDescriptionArea().getText());
+                        try {
+                            taskManager.updateDatabase();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        gui.resetTextFields();
+                        gui.updateGridPane();
+                        gui.createLabels();
+                        gui.getAddTaskFrame().dispose();
+                    }
+                }
             }
         }
     }

@@ -26,6 +26,7 @@ public class GUI extends JFrame {
     private JTextArea descriptionArea = new JTextArea(20, 40);
     private JTextField date = new JTextField();
     private JButton save = new JButton("Spara");
+    private JButton updateButton = new JButton("Uppdatera");
     private JPanel gridPane = new JPanel(new GridLayout(15,1,15,15));
     private JScrollPane sideScrollPanel = new JScrollPane(gridPane);
     TaskManager taskManager = new TaskManager();
@@ -100,6 +101,29 @@ public class GUI extends JFrame {
         addTaskMainPanel.add(save);
 
         save.addActionListener(actionListener);
+
+        addTaskFrame.setSize(800,500);
+        addTaskFrame.setVisible(true);
+        addTaskFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        return null;
+    }
+
+
+    public Task addTaskWindow(Task task){
+        titleField.setText(task.getTitle());
+        descriptionArea.setText(task.getContent());
+        date.setText(task.getDate().toString());
+        addTaskFrame.add(addTaskMainPanel);
+        titleField.setToolTipText("Titel:");
+        setSize(800, 500);
+        addTaskMainPanel.setSize(300,300);
+        addTaskMainPanel.add(titleField);
+        addTaskMainPanel.add(descriptionArea);
+        addTaskMainPanel.add(date);
+        addTaskMainPanel.add(updateButton);
+
+        updateButton.addActionListener(actionListener);
 
         addTaskFrame.setSize(800,500);
         addTaskFrame.setVisible(true);
