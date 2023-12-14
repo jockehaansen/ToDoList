@@ -34,6 +34,8 @@ public class GUI extends JFrame {
 
 
     public GUI() throws IOException {
+
+        //test
         taskManager.dbToList();
         setTitle("ToDo Applikation");
         setSize(800, 500);
