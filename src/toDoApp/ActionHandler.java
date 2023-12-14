@@ -62,9 +62,11 @@ public class ActionHandler implements ActionListener, MouseListener {
             } else if (buttonClicked.getText() == "Visa ej klara uppgifter") {
                 System.out.println("Tryckte på Visa ej klara uppgifter");
             } else if (buttonClicked.getText() == "Spara") {
+                System.out.println(gui.getDate().getText());
                 System.out.println(gui.getTitleField().getText());
                 System.out.println(gui.getDescriptionArea().getText());
                 System.out.println(gui.getDate().getText());
+
                 try {
                     taskManager.createTask(gui.getTitleField().getText(),
                             gui.getDescriptionArea().getText(),
