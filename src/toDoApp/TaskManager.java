@@ -29,49 +29,44 @@ public class TaskManager implements TaskOperations{
     public void dbToList() throws IOException {
         taskList.clear();
 
-        //inläsning av fil och uppskapanden av tasks som läggs i listan
-        try {
-            this.bufferedReader = new BufferedReader(new java.io.FileReader(dbFile));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(dbFile))) {
+            String tempLine;
+            while ((tempLine = bufferedReader.readLine()) != null) {
+                Task task = new Task();
+                task.setTitle(tempLine.substring(0, tempLine.indexOf(",")));
+                task.setContent(tempLine.substring(tempLine.indexOf(",") + 2, tempLine.lastIndexOf(",")));
+                task.setDate(LocalDate.parse(tempLine.substring(tempLine.lastIndexOf(",") + 2)));
+                taskList.add(task);
+            }
         } catch (FileNotFoundException e) {
             System.out.println("File was not found");
         }
-        String tempLine;
-        while((tempLine = bufferedReader.readLine()) != null){
-            Task task = new Task();
-            task.setTitle(tempLine.substring(0,tempLine.indexOf(",")));
-            task.setContent(tempLine.substring(tempLine.indexOf(",")+2, tempLine.lastIndexOf(",")));
-            task.setDate(LocalDate.parse(tempLine.substring(tempLine.lastIndexOf(",")+2)));
-            taskList.add(task);
-        }
-    };
+    }
 
     public void updateDatabase() throws IOException {
-        //skriver om databasen när en task tas bort eller läggs till i listan
-        bufferedWriter = new BufferedWriter(new FileWriter(dbFile));
-        for (Task task:taskList) {
-            try{
-                System.out.println(task.getTitle());
-
-                bufferedWriter.append(task.getTitle());
-                bufferedWriter.append(", ");
-                bufferedWriter.append(task.getContent());
-                bufferedWriter.append(", ");
-                bufferedWriter.append(task.getDate().toString());
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(dbFile))) {
+            for (Task task : taskList) {
+                bufferedWriter.write(task.getTitle() + ", " + task.getContent() + ", " + task.getDate());
                 bufferedWriter.newLine();
-
-                bufferedWriter.flush();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
         }
-        bufferedWriter.close();
     }
+
 
     public void createTask(String titel, String description, LocalDate date){
         Task task = new Task(titel,description,date);
-        System.out.println("I create task, innan add"+taskList.size());
-        taskList.add(task);
-        System.out.println("I create task, efter add"+taskList.size());
+        this.taskList.add(task);
+
+    }
+
+    public Task findTask(String input){
+        for (Task task:taskList
+             ) {
+            if (input.matches(task.getTitle())){
+                return task;
+            }
+        }
+        return null;
     }
 
 
